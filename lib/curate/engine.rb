@@ -12,6 +12,7 @@ module Curate
         super_paths.add "app/inputs", eager_load: true
         super_paths.add "app/mailers", eager_load: true
         super_paths.add "app/builders", eager_load: true
+        super_paths.add "app/forms", eager_load: true
         super_paths
       end
     end
@@ -33,6 +34,7 @@ module Curate
       require File.expand_path("../active_model_adaptor", __FILE__)
       require 'curate/rails/routes' 
       require 'sufia/models'
+      require 'virtus'
       # Require instead of autoload so that our classes take precidence over those in sufia-models
       require File.expand_path('../../../app/workers/characterize_job', __FILE__)
       require File.expand_path('../../../app/repository_datastreams/file_content_datastream', __FILE__)
