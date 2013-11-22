@@ -20,8 +20,6 @@ class CurationConcern::DocumentsController < CurationConcern::GenericWorksContro
 
   # Override setup_form in concrete controllers to get the form ready for display
   def setup_form
-    curation_concern.contributors << current_user.person if curation_concern.contributors.blank?
-    curation_concern.contributors << Person.new
   end
   protected :setup_form
 
@@ -100,6 +98,8 @@ class CurationConcern::DocumentsController < CurationConcern::GenericWorksContro
       curation_concern_type.new
     end
   end
+
+  helper_method :actor
 
   def hash_key_for_curation_concern
     curation_concern_type.name.underscore.to_sym

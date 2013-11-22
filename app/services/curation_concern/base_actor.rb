@@ -12,7 +12,7 @@ module CurationConcern
       ActiveFedora::Base.model_name
     end
 
-    delegate :persisted?, :to_param, :to_key, :to_partial_path, to: :curation_concern
+    delegate :persisted?, :to_param, :to_key, :to_partial_path, :human_readable_type, to: :curation_concern
 
     attr_reader :curation_concern, :user
     def initialize(curation_concern, user, input_attributes, &block)

@@ -5,6 +5,7 @@ module Curate
     values do
       attribute :name
       attribute :id
+      attribute :_destroy
     end
 
     delegate :with_indifferent_access, to: :attributes
@@ -15,6 +16,14 @@ module Curate
       else
         RDF::Literal.new(name)
       end
+    end
+
+    def persisted?
+      id.present?
+    end
+
+    def self.model_name
+      Person.model_name
     end
 
     private

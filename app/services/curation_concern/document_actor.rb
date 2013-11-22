@@ -1,12 +1,16 @@
 module CurationConcern
   class DocumentActor < GenericWorkActor
 
+    delegate :open_access?, :open_access_with_embargo_release_date?, :authenticated_only_access?, :private_access?, to: :curation_concern
+
     # required_information
     attribute :title, String
     validates :title, presence: true
 
     attribute :contributors_attributes, Hash[String => Curate::PersonValue]
-    validates :contributors, presence: true
+    validates :contributors_attributes, presence: true
+
+    attribute :contributors, Array[Curate::PersonValue], default: :default_contributors
 
     attribute :description, String
     validates :description, presence: true
@@ -26,10 +30,31 @@ module CurationConcern
     attribute :representative, String
 
     # form_doi
+    attribute :identifier, String
     attribute :doi_assignment_strategy, String
+    attribute :existing_identifier, String
+
+
+    # Given that a publisher could be an array or a single entity
+    # Then we need to account for both
+    # Conveniently [].length == 0 and "".length == 0
+    validates :publisher, length: { minimum: 1, message: 'is required for remote DOI minting', if: :remote_doi_assignment_strategy? }
+
+    attr_writer :doi_remote_service
+
+    protected
+
+    def doi_remote_service
+      @doi_remote_service ||= Hydra::RemoteIdentifier.remote_service(:doi)
+    end
+
+    def remote_doi_assignment_strategy?
+      doi_assignment_strategy.to_s == doi_remote_service.accessor_name.to_s
+    end
 
     # form_permission
     attribute :visibility, String
+    attribute :embargo_release_date, Date
 
     # form_content_license
     attribute :rights, String, default: :default_rights
@@ -38,5 +63,10 @@ module CurationConcern
     attribute :type, String
     validates :type, inclusion: { in: Document.valid_types, allow_blank: true }
 
+    def default_contributors
+      if ! self.contributors.present?
+        self.contributors = [Curate::PersonValue.new(name: user.name, id: user.repository_id)]
+      end
+    end
   end
 end
