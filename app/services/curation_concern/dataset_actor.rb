@@ -1,5 +1,5 @@
 module CurationConcern
-  class DatasetActor < WorkActor
+  class DatasetActor < AbstractWorkActor
     Dataset.editable_attributes.each do |config|
       attribute config.name
     end

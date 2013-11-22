@@ -1,4 +1,4 @@
 module CurationConcern
-  class EtdActor < WorkActor
+  class EtdActor < AbstractWorkActor
   end
 end

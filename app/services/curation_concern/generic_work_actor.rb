@@ -1,5 +1,5 @@
 module CurationConcern
-  class GenericWorkActor < CurationConcern::AbstractWorkActor
+  class GenericWorkActor < AbstractWorkActor
 
     GenericWork.editable_attributes do |a|
       attribute a.name

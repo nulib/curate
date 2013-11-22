@@ -1,5 +1,5 @@
 module CurationConcern
-  class LinkedResourceActor < CurationConcern::BaseActor
+  class LinkedResourceActor < BaseActor
     LinkedResource.editable_attributes.each do |attribute|
       attribute attribute.name
     end

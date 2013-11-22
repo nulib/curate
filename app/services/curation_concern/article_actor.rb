@@ -1,4 +1,7 @@
 module CurationConcern
-  class ArticleActor < WorkActor
+  class ArticleActor < AbstractWorkActor
+    Article.editable_attributes do |config|
+      attribute config.name
+    end
   end
 end

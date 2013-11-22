@@ -14,7 +14,7 @@ module CurationConcern
 
     def self.curation_concern_type
       self.name.demodulize.sub(/Actor$/,'').constantize
-    rescue NameError => e
+    rescue NameError
       ActiveFedora::Base
     end
 
