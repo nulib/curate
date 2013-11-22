@@ -9,6 +9,10 @@ describe CurationConcern::GenericWorkActor do
     CurationConcern.actor(curation_concern, user, attributes)
   }
 
+  it 'should delegate .model_name to GenericWork' do
+    expect(described_class.model_name).to eq(GenericWork.model_name)
+  end
+
   describe '#create' do
     let(:curation_concern) { GenericWork.new(pid: CurationConcern.mint_a_pid )}
 

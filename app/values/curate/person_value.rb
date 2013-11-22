@@ -4,8 +4,10 @@ module Curate
 
     values do
       attribute :name
-      attribute :identifier
+      attribute :id
     end
+
+    delegate :with_indifferent_access, to: :attributes
 
     def as_rdf_object
       if identified_object.present?
@@ -19,8 +21,8 @@ module Curate
     def identified_object
       @identified_object ||=
       begin
-        if identifier.present?
-          Person.find(identifier)
+        if id.present?
+          Person.find(id)
         else
           ''
         end

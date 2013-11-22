@@ -21,8 +21,19 @@ describe CurationConcern::BaseActor do
   let(:attributes) { Hash.new }
 
   subject {
-    CurationConcern::BaseActor.new(curation_concern, user, attributes)
+    described_class.new(curation_concern, user, attributes)
   }
+
+  it 'should have a .model_name based on the curation concern' do
+    expect(subject.class.model_name).to eq ActiveFedora::Base.model_name
+  end
+
+  context 'delegated methods' do
+    it { should delegate(:persisted?).to(:curation_concern) }
+    it { should delegate(:to_param).to(:curation_concern) }
+    it { should delegate(:to_key).to(:curation_concern) }
+    it { should delegate(:to_partial_path).to(:curation_concern) }
+  end
 
   describe 'apply_creation_data_to_curation_concern' do
     let(:proxy_user) { FactoryGirl.create(:user) }

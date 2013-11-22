@@ -1,6 +1,10 @@
 module CurationConcern
   class GenericWorkActor < CurationConcern::BaseActor
 
+    def self.model_name
+      self.name.demodulize.sub(/Actor$/,'').constantize.model_name
+    end
+
     def create
       super && attach_files && create_linked_resources && assign_representative
     end

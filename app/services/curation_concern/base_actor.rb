@@ -4,11 +4,21 @@ module CurationConcern
   # * #update
   # * #delete
   class BaseActor
-    attr_reader :curation_concern, :user, :attributes
-    def initialize(curation_concern, user, input_attributes)
+
+    include ::Virtus.model
+    include ActiveModel::Validations
+
+    def self.model_name
+      ActiveFedora::Base.model_name
+    end
+
+    delegate :persisted?, :to_param, :to_key, :to_partial_path, to: :curation_concern
+
+    attr_reader :curation_concern, :user
+    def initialize(curation_concern, user, input_attributes, &block)
       @curation_concern = curation_concern
       @user = user
-      @attributes = input_attributes.dup.with_indifferent_access
+      super(input_attributes, &block)
       @visibility = attributes[:visibility]
     end
 

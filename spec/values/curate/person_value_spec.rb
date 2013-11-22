@@ -3,14 +3,16 @@ require 'spec_helper'
 module Curate
   describe PersonValue do
     let(:name) { nil }
-    let(:identifier) { nil }
+    let(:id) { nil }
     let(:attributes) {
       {
         name: name,
-        identifier: identifier
+        id: identifier
       }
     }
     subject { described_class.new(attributes) }
+
+    it { should delegate(:with_indifferent_access).to(:attributes) }
 
     context 'with a name' do
       let(:name) { 'Jack Kennedy' }
@@ -18,7 +20,7 @@ module Curate
     end
 
     context 'with an identifier' do
-      let(:identifier) { 'ab12cd34ef56' }
+      let(:id) { 'ab12cd34ef56' }
       let(:identified_object) { double(as_rdf_object: :as_rdf_object) }
       before(:each) do
         Person.should_receive(:find).with(identifier).and_return(identified_object)
