@@ -1,6 +1,6 @@
 module Curate
 
-  class GenericWork::NewForm
+  class GenericWorkForm
 
     include ::Virtus.model
     include ActiveModel::Validations

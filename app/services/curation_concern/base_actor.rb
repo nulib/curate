@@ -19,21 +19,23 @@ module CurationConcern
       @curation_concern = curation_concern
       @user = user
       super(input_attributes, &block)
-      @visibility = attributes[:visibility]
     end
 
-    attr_reader :visibility
-    protected :visibility
+    attribute :owner, String
 
-    delegate :visibility_changed?, to: :curation_concern
+    attribute :visibility, String
+    attribute :embargo_release_date, Date
+    delegate :visibility_changed?, :open_access?, :open_access_with_embargo_release_date?, :authenticated_only_access?, :private_access?, to: :curation_concern
 
     def create
+      return false unless valid?
       apply_creation_data_to_curation_concern
       apply_save_data_to_curation_concern
       save
     end
 
     def update
+      return false unless valid?
       apply_update_data_to_curation_concern
       apply_save_data_to_curation_concern
       save
@@ -93,7 +95,7 @@ module CurationConcern
     end
 
     def candidate_owner
-      attributes.has_key?('owner') && User.find_by_user_key(attributes.delete('owner'))
+      attributes.has_key?(:owner) && User.find_by_user_key(attributes.delete(:owner))
     end
   end
 end

@@ -33,6 +33,12 @@ describe CurationConcern::BaseActor do
     it { should delegate(:to_param).to(:curation_concern) }
     it { should delegate(:to_key).to(:curation_concern) }
     it { should delegate(:to_partial_path).to(:curation_concern) }
+
+    it { should delegate(:visibility_changed?).to(:curation_concern) }
+    it { should delegate(:open_access?).to(:curation_concern) }
+    it { should delegate(:open_access_with_embargo_release_date?).to(:curation_concern) }
+    it { should delegate(:authenticated_only_access?).to(:curation_concern) }
+    it { should delegate(:private_access?).to(:curation_concern) }
   end
 
   describe 'apply_creation_data_to_curation_concern' do

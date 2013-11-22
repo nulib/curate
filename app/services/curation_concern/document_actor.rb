@@ -1,8 +1,6 @@
 module CurationConcern
   class DocumentActor < GenericWorkActor
 
-    delegate :open_access?, :open_access_with_embargo_release_date?, :authenticated_only_access?, :private_access?, to: :curation_concern
-
     # required_information
     attribute :title, String
     validates :title, presence: true
@@ -51,10 +49,6 @@ module CurationConcern
     def remote_doi_assignment_strategy?
       doi_assignment_strategy.to_s == doi_remote_service.accessor_name.to_s
     end
-
-    # form_permission
-    attribute :visibility, String
-    attribute :embargo_release_date, Date
 
     # form_content_license
     attribute :rights, String, default: :default_rights
