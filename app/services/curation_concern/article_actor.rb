@@ -1,4 +1,4 @@
 module CurationConcern
-  class ArticleActor < GenericWorkActor
+  class ArticleActor < WorkActor
   end
 end

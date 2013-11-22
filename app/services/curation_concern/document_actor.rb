@@ -1,5 +1,5 @@
 module CurationConcern
-  class DocumentActor < GenericWorkActor
+  class DocumentActor < WorkActor
 
     # required_information
     attribute :title, String

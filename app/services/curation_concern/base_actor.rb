@@ -9,12 +9,12 @@ module CurationConcern
     include ActiveModel::Validations
 
     def self.model_name
-      curation_concern_type.model_name
+      ActiveFedora::Base.model_name
     end
 
     def self.curation_concern_type
       self.name.demodulize.sub(/Actor$/,'').constantize
-    rescue NameError
+    rescue NameError => e
       ActiveFedora::Base
     end
 

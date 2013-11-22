@@ -1,4 +1,8 @@
 module CurationConcern
-  class ImageActor < GenericWorkActor
+  class ImageActor < WorkActor
+    Image.editable_attributes.each do |config|
+      attribute config.name
+    end
+
   end
 end
