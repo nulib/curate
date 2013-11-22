@@ -13,6 +13,7 @@ module Curate
         super_paths.add "app/mailers", eager_load: true
         super_paths.add "app/builders", eager_load: true
         super_paths.add "app/forms", eager_load: true
+        super_paths.add "app/values", eager_load: true
         super_paths
       end
     end
@@ -21,6 +22,8 @@ module Curate
        #{config.root}/app/repository_models
        #{config.root}/app/repository_datastreams
        #{config.root}/app/repository_models/concerns
+       #{config.root}/app/forms
+       #{config.root}/app/values
     )
 
     config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
