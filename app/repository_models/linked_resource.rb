@@ -8,8 +8,14 @@ class LinkedResource < ActiveFedora::Base
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
   has_metadata "descMetadata", type: GenericFileRdfDatastream
 
-  attribute :title, multiple: false, datastream: :descMetadata
-  has_attributes :date_uploaded, :date_modified, :creator, datastream: :descMetadata, multiple: false
+  attribute :title, datastream: :descMetadata, multiple: false
+  attribute :url, skip_accessor: true
+
+  with_options datastream: :descMetadata, multiple: false, editable: false do |ds|
+    ds.attribute :date_uploaded
+    ds.attribute :date_modified
+    ds.attribute :creator
+  end
 
   validates :batch, presence: true
   validates :url, presence: true

@@ -9,7 +9,13 @@ module CurationConcern
     include ActiveModel::Validations
 
     def self.model_name
-      ActiveFedora::Base.model_name
+      curation_concern_type.model_name
+    end
+
+    def self.curation_concern_type
+      self.name.demodulize.sub(/Actor$/,'').constantize
+    rescue NameError
+      ActiveFedora::Base
     end
 
     delegate :persisted?, :to_param, :to_key, :to_partial_path, :human_readable_type, to: :curation_concern
@@ -24,7 +30,6 @@ module CurationConcern
     attribute :owner, String
 
     attribute :visibility, String
-    attribute :embargo_release_date, Date
     delegate :visibility_changed?, :open_access?, :open_access_with_embargo_release_date?, :authenticated_only_access?, :private_access?, to: :curation_concern
 
     def create

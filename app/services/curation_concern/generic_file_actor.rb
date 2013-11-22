@@ -1,6 +1,9 @@
 module CurationConcern
   class GenericFileActor < CurationConcern::BaseActor
 
+    attribute :embargo_release_date, Date
+    delegate :visibility_changed?, :open_access?, :open_access_with_embargo_release_date?, :authenticated_only_access?, :private_access?, to: :curation_concern
+
     def create
       super && update_file
     end

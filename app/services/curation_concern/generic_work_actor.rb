@@ -1,10 +1,6 @@
 module CurationConcern
   class GenericWorkActor < CurationConcern::BaseActor
 
-    def self.model_name
-      self.name.demodulize.sub(/Actor$/,'').constantize.model_name
-    end
-
     def create
       super && attach_files && create_linked_resources && assign_representative
     end
@@ -13,7 +9,7 @@ module CurationConcern
       add_to_collections(attributes.delete(:collection_ids)) && super && attach_files && create_linked_resources
     end
 
-    delegate :visibility_changed?, to: :curation_concern
+    attribute :embargo_release_date, Date
 
     protected
 
