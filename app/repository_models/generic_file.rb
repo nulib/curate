@@ -12,6 +12,7 @@ class GenericFile < ActiveFedora::Base
   include Sufia::GenericFile::MimeTypes
   include Sufia::GenericFile::Thumbnail
   include Sufia::GenericFile::Derivatives
+  include ActiveFedora::RegisteredAttributes
 
   include CurationConcern::RemotelyIdentifiedByDoi::Attributes
 
@@ -22,14 +23,17 @@ class GenericFile < ActiveFedora::Base
   has_file_datastream "content", type: FileContentDatastream
   has_file_datastream "thumbnail"
 
-  has_attributes :owner, :depositor, datastream: :properties, multiple: false
-  has_attributes :date_uploaded, :date_modified, datastream: :descMetadata, multiple: false
-  has_attributes :creator, :title, datastream: :descMetadata, multiple: true
+  attribute :owner, datastream: :properties, multiple: false
+  attribute :depositor, datastream: :properties, multiple: false
+  attribute :date_uploaded, datastream: :descMetadata, multiple: false
+  attribute :date_modified, datastream: :descMetadata, multiple: false
+  attribute :creator, datastream: :descMetadata, multiple: true
+  attribute :title, datastream: :descMetadata, multiple: true
+  attribute :file, multiple: false
+  attribute :version, multiple: false
 
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "An arbitrary single file."
-
-  attr_accessor :file, :version
 
   def filename
     content.label
