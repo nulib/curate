@@ -3,7 +3,7 @@ require 'spec_helper'
 module Curate
   describe PersonValue do
     let(:name) { nil }
-    let(:id) { nil }
+    let(:identifier) { nil }
     let(:attributes) {
       {
         name: name,
@@ -20,7 +20,7 @@ module Curate
     end
 
     context 'with an identifier' do
-      let(:id) { 'ab12cd34ef56' }
+      let(:identifier) { 'ab12cd34ef56' }
       let(:identified_object) { double(as_rdf_object: :as_rdf_object) }
       before(:each) do
         Person.should_receive(:find).with(identifier).and_return(identified_object)
